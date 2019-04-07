@@ -1,6 +1,8 @@
 package by.naakcii.adminka.ui.components;
 
 import by.naakcii.adminka.ui.views.CrudForm;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeButton;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.upload.Upload;
@@ -60,9 +62,20 @@ public class ImageUpload extends HorizontalLayout {
                     }
                 }
             } catch (IOException ex) {
-                Notification.show("Error");
-                ex.printStackTrace();
+//                Notification.show("Error");
+//                ex.printStackTrace();
+                errorNotification(ex);
             }
         });
+    }
+
+    private void errorNotification(Exception e) {
+        e.printStackTrace();
+        NativeButton button = new NativeButton("Закрыть");
+        Label error = new Label(e.toString());
+        Notification notification = new Notification(error, button);
+        notification.setPosition(Notification.Position.TOP_STRETCH);
+        notification.open();
+        button.addClickListener(event -> notification.close());
     }
 }
