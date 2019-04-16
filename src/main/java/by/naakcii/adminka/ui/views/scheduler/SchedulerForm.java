@@ -21,7 +21,7 @@ public class SchedulerForm extends VerticalLayout implements CrudForm<ScheduleJo
     private final TextField name;
     private final TextField cronExpression;
     private final ComboBox<String> jobTypeName;
-    private final TextField beanName;
+//    private final TextField beanName;
 
     private final FormButtonsBar buttons;
     private ScheduleJobDTO scheduleJobDTO;
@@ -41,12 +41,12 @@ public class SchedulerForm extends VerticalLayout implements CrudForm<ScheduleJo
         jobTypeName.setItems(scheduleJobTypeService.getAllJobTypeNames());
         jobTypeName.setWidth("100%");
 
-        beanName = new TextField("Bean name");
-        beanName.setWidth("100%");
+//        beanName = new TextField("Bean name");
+//        beanName.setWidth("100%");
         buttons = new FormButtonsBar();
-        getButtons().getSaveButton().setEnabled(false);
+//        getButtons().getSaveButton().setEnabled(false);
         getButtons().getDeleteButton().setEnabled(false);
-        add(name, cronExpression, jobTypeName, beanName, buttons);
+        add(name, cronExpression, jobTypeName, buttons);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class SchedulerForm extends VerticalLayout implements CrudForm<ScheduleJo
         binder.forField(name).bind(ScheduleJobDTO::getName, ScheduleJobDTO::setName);
         binder.forField(cronExpression).bind(ScheduleJobDTO::getCronExpression, ScheduleJobDTO::setCronExpression);
         binder.forField(jobTypeName).bind(ScheduleJobDTO::getScheduleJobTypeName, ScheduleJobDTO::setScheduleJobTypeName);
-        binder.forField(beanName).bind(ScheduleJobDTO::getBeanName, ScheduleJobDTO::setBeanName);
+//        binder.forField(beanName).bind(ScheduleJobDTO::getBeanName, ScheduleJobDTO::setBeanName);
     }
 
     @Override
