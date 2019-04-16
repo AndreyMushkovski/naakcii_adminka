@@ -40,4 +40,8 @@ public class AppConsts {
     public static final String PAGE_MEASURE = "unitOfMeasure";
     public static final String TITLE_MEASURE = "Ед. измерения";
     public static final String ICON_MEASURE = "scale";
+
+    public static final String PAGE_SCHEDULER = "scheduler";
+    public static final String TITLE_SCHEDULER = "Scheduler";
+    public static final String ICON_SCHEDULER = "calendar";
 }

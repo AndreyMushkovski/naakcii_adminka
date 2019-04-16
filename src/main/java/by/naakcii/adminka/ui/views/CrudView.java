@@ -91,7 +91,7 @@ public abstract class CrudView<E extends AbstractDTOEntity> extends VerticalLayo
             }
     }
 
-    private void errorNotification(Exception e) {
+    public static void errorNotification(Exception e) {
         e.printStackTrace();
         NativeButton button = new NativeButton("Закрыть");
         Label error = new Label(e.toString());
