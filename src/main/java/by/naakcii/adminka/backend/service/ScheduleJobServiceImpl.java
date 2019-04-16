@@ -3,6 +3,7 @@ package by.naakcii.adminka.backend.service;
 import by.naakcii.adminka.backend.DTO.ScheduleJobDTO;
 import by.naakcii.adminka.backend.entity.ScheduleJob;
 import by.naakcii.adminka.backend.repositories.ScheduleJobRepository;
+import by.naakcii.adminka.backend.repositories.ScheduleJobTypeRepository;
 import by.naakcii.adminka.backend.utils.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,15 @@ import java.util.stream.Collectors;
 public class ScheduleJobServiceImpl implements CrudService<ScheduleJobDTO> {
 
     private final ScheduleJobRepository scheduleJobRepository;
+    private final ScheduleJobTypeRepository scheduleJobTypeRepository;
     private final ObjectFactory objectFactory;
 
     @Autowired
-    public ScheduleJobServiceImpl(ScheduleJobRepository scheduleJobRepository, ObjectFactory objectFactory) {
+    public ScheduleJobServiceImpl(ScheduleJobRepository scheduleJobRepository,
+                                  ScheduleJobTypeRepository scheduleJobTypeRepository,
+                                  ObjectFactory objectFactory) {
         this.scheduleJobRepository = scheduleJobRepository;
+        this.scheduleJobTypeRepository = scheduleJobTypeRepository;
         this.objectFactory = objectFactory;
     }
 
@@ -39,12 +44,14 @@ public class ScheduleJobServiceImpl implements CrudService<ScheduleJobDTO> {
 
     @Override
     public ScheduleJobDTO createNewDTO() {
-        return null;
+        return new ScheduleJobDTO();
     }
 
     @Override
     public ScheduleJobDTO saveDTO(ScheduleJobDTO entityDTO) {
-        return null;
+        ScheduleJob scheduleJob = new ScheduleJob(entityDTO);
+        scheduleJob.setScheduleJobType(scheduleJobTypeRepository.findByNameIgnoreCase(entityDTO.getScheduleJobTypeName()));
+        return new ScheduleJobDTO(scheduleJobRepository.save(scheduleJob));
     }
 
     @Override

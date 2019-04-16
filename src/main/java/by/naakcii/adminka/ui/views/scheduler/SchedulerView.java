@@ -29,10 +29,9 @@ public class SchedulerView extends CrudView<ScheduleJobDTO> {
 
     @Override
     protected void setupGrid() {
-        getGrid().addColumn(ScheduleJobDTO::getName).setSortable(true);
-        getGrid().addColumn(ScheduleJobDTO::getCronExpression);
-        getGrid().addColumn(ScheduleJobDTO::getScheduleJobTypeName);
-        getGrid().addColumn(ScheduleJobDTO::getCronExpression);
-        getGrid().addColumn(ScheduleJobDTO::getBeanName);
+        getGrid().addColumn(ScheduleJobDTO::getName).setHeader("Job Name").setSortable(true);
+        getGrid().addColumn(ScheduleJobDTO::getCronExpression).setHeader("Cron");
+        getGrid().addColumn(ScheduleJobDTO::getScheduleJobTypeName).setHeader("Job Type Name");
+        getGrid().addColumn(ScheduleJobDTO::getBeanName).setHeader("Bean name");
     }
 }

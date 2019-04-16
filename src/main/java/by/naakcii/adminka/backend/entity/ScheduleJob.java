@@ -1,5 +1,6 @@
 package by.naakcii.adminka.backend.entity;
 
+import by.naakcii.adminka.backend.DTO.ScheduleJobDTO;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,4 +46,9 @@ public class ScheduleJob implements Serializable {
     @JoinColumn(name = "SCHEDULE_JOB_TYPE_ID")
     private ScheduleJobType scheduleJobType;
 
+    public ScheduleJob(ScheduleJobDTO scheduleJobDTO) {
+        this.id = scheduleJobDTO.getId();
+        this.name = scheduleJobDTO.getName();
+        this.cronExpression = scheduleJobDTO.getCronExpression();
+    }
 }

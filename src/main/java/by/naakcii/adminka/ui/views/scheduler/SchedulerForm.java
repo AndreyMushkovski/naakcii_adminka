@@ -1,8 +1,11 @@
 package by.naakcii.adminka.ui.views.scheduler;
 
 import by.naakcii.adminka.backend.DTO.ScheduleJobDTO;
+import by.naakcii.adminka.backend.entity.ScheduleJobType;
+import by.naakcii.adminka.backend.service.ScheduleJobTypeService;
 import by.naakcii.adminka.ui.components.FormButtonsBar;
 import by.naakcii.adminka.ui.views.CrudForm;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
@@ -15,14 +18,33 @@ import org.springframework.context.annotation.Scope;
 @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class SchedulerForm extends VerticalLayout implements CrudForm<ScheduleJobDTO> {
 
+    private final TextField name;
+    private final TextField cronExpression;
+    private final ComboBox<String> jobTypeName;
+    private final TextField beanName;
+
     private final FormButtonsBar buttons;
     private ScheduleJobDTO scheduleJobDTO;
 
     @Autowired
-    public SchedulerForm() {
+    public SchedulerForm(ScheduleJobTypeService scheduleJobTypeService) {
         setSizeFull();
+
+        name = new TextField("Job Name");
+        name.focus();
+        name.setWidth("100%");
+
+        cronExpression = new TextField("Cron");
+        cronExpression.setWidth("100%");
+
+        jobTypeName = new ComboBox<>("Job Type Name");
+        jobTypeName.setItems(scheduleJobTypeService.getAllJobTypeNames());
+        jobTypeName.setWidth("100%");
+
+        beanName = new TextField("Bean name");
+        beanName.setWidth("100%");
         buttons = new FormButtonsBar();
-        add(buttons);
+        add(name, cronExpression, jobTypeName, beanName, buttons);
     }
 
     @Override
@@ -36,8 +58,12 @@ public class SchedulerForm extends VerticalLayout implements CrudForm<ScheduleJo
     }
 
     @Override
-    public void setBinder(Binder<ScheduleJobDTO> binder, ScheduleJobDTO entity) {
-
+    public void setBinder(Binder<ScheduleJobDTO> binder, ScheduleJobDTO scheduleJobDTO) {
+        this.scheduleJobDTO = scheduleJobDTO;
+        binder.forField(name).bind(ScheduleJobDTO::getName, ScheduleJobDTO::setName);
+        binder.forField(cronExpression).bind(ScheduleJobDTO::getCronExpression, ScheduleJobDTO::setCronExpression);
+        binder.forField(jobTypeName).bind(ScheduleJobDTO::getScheduleJobTypeName, ScheduleJobDTO::setScheduleJobTypeName);
+        binder.forField(beanName).bind(ScheduleJobDTO::getBeanName, ScheduleJobDTO::setBeanName);
     }
 
     @Override
