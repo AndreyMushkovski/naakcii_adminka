@@ -44,6 +44,8 @@ public class SchedulerForm extends VerticalLayout implements CrudForm<ScheduleJo
         beanName = new TextField("Bean name");
         beanName.setWidth("100%");
         buttons = new FormButtonsBar();
+        getButtons().getSaveButton().setEnabled(false);
+        getButtons().getDeleteButton().setEnabled(false);
         add(name, cronExpression, jobTypeName, beanName, buttons);
     }
 
