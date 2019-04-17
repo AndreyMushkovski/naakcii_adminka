@@ -21,6 +21,7 @@ public class SchedulerView extends CrudView<ScheduleJobDTO> {
     public SchedulerView(CrudForm<ScheduleJobDTO> form, CrudService<ScheduleJobDTO> crudService) {
         super(form, crudService, null);
         binder = new Binder<>(ScheduleJobDTO.class);
+        getSearchBar().getSearchField().setVisible(false);
     }
     @Override
     public Binder<ScheduleJobDTO> getBinder() {
@@ -29,9 +30,9 @@ public class SchedulerView extends CrudView<ScheduleJobDTO> {
 
     @Override
     protected void setupGrid() {
-        getGrid().addColumn(ScheduleJobDTO::getName).setHeader("Job Name").setSortable(true);
+        getGrid().addColumn(ScheduleJobDTO::getName).setHeader("Название").setSortable(true);
         getGrid().addColumn(ScheduleJobDTO::getCronExpression).setHeader("Cron");
-        getGrid().addColumn(ScheduleJobDTO::getScheduleJobTypeName).setHeader("Job Type Name");
-        getGrid().addColumn(ScheduleJobDTO::getBeanName).setHeader("Bean name");
+        getGrid().addColumn(ScheduleJobDTO::getScheduleJobTypeName).setHeader("Тип задачи");
+        getGrid().addColumn(ScheduleJobDTO::getBeanName).setHeader("Имя бина");
     }
 }

@@ -30,18 +30,18 @@ public class SchedulerForm extends VerticalLayout implements CrudForm<ScheduleJo
     public SchedulerForm(ScheduleJobTypeService scheduleJobTypeService) {
         setSizeFull();
 
-        name = new TextField("Job Name");
+        name = new TextField("Название");
         name.focus();
         name.setWidth("100%");
 
         cronExpression = new TextField("Cron");
         cronExpression.setWidth("100%");
 
-        jobTypeName = new ComboBox<>("Job Type Name");
+        jobTypeName = new ComboBox<>("Тип задачи");
         jobTypeName.setItems(scheduleJobTypeService.getAllJobTypeNames());
         jobTypeName.setWidth("100%");
 
-//        beanName = new TextField("Bean name");
+//        beanName = new TextField("Имя бина");
 //        beanName.setWidth("100%");
         buttons = new FormButtonsBar();
 //        getButtons().getSaveButton().setEnabled(false);

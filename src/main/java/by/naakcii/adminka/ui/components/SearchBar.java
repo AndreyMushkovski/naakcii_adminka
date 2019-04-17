@@ -12,11 +12,12 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 public class SearchBar<E  extends AbstractDTOEntity> extends HorizontalLayout {
 
     private final CrudView<E> crudView;
+    private final TextField search;
     private final Button addEntity;
 
     public SearchBar(CrudView<E> crudView, Component filterComponent) {
         this.crudView = crudView;
-        TextField search = new TextField("Поиск");
+        search = new TextField("Поиск");
         search.setValueChangeMode(ValueChangeMode.EAGER);
         search.setPlaceholder("Введите название");
         search.setClearButtonVisible(true);
@@ -47,5 +48,9 @@ public class SearchBar<E  extends AbstractDTOEntity> extends HorizontalLayout {
 
     public Button getAddEntity() {
         return addEntity;
+    }
+
+    public TextField getSearchField() {
+        return search;
     }
 }
