@@ -6,12 +6,15 @@ import by.naakcii.adminka.backend.entity.ScheduleJobType;
 import by.naakcii.adminka.backend.repositories.ScheduleJobRepository;
 import by.naakcii.adminka.backend.repositories.ScheduleJobTypeRepository;
 import by.naakcii.adminka.backend.utils.ObjectFactory;
+import com.vaadin.flow.component.notification.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,9 +23,6 @@ public class ScheduleJobServiceImpl implements CrudService<ScheduleJobDTO> {
     private final ScheduleJobRepository scheduleJobRepository;
     private final ScheduleJobTypeRepository scheduleJobTypeRepository;
     private final ObjectFactory objectFactory;
-
-    @Autowired
-    EntityManager entityManager;
 
     @Autowired
     public ScheduleJobServiceImpl(ScheduleJobRepository scheduleJobRepository,
@@ -53,28 +53,37 @@ public class ScheduleJobServiceImpl implements CrudService<ScheduleJobDTO> {
     }
 
     @Override
+    @Transactional
     public ScheduleJobDTO saveDTO(ScheduleJobDTO entityDTO) {
-        if (entityDTO.getId()!=null) {
-        ScheduleJob scheduleJob = scheduleJobRepository.findById(entityDTO.getId()).orElse(null);
-//        ScheduleJobType jobType = scheduleJobTypeRepository.findByNameIgnoreCase(entityDTO.getScheduleJobTypeName());
-//        scheduleJob.setScheduleJobType(jobType);
-        entityManager.detach(scheduleJob);
-        scheduleJob.setName(entityDTO.getName());
-//        scheduleJobRepository.save(scheduleJob);
-//        ScheduleJob scheduleJob = new ScheduleJob(entityDTO);
-//        scheduleJob.setScheduleJobType(scheduleJobTypeRepository.findByNameIgnoreCase(entityDTO.getScheduleJobTypeName()));
-//        ScheduleJobDTO scheduleJobDTO = new ScheduleJobDTO(scheduleJobRepository.save(scheduleJob));
-//        Optional<ScheduleJob> byId = scheduleJobRepository.findById(scheduleJobDTO.getId());
-        return new ScheduleJobDTO(scheduleJobRepository.save(scheduleJob)); }
+        Optional<ScheduleJob> scheduleJobDB = scheduleJobRepository.findByNameIgnoreCase(entityDTO.getName());
+        if(!scheduleJobDB.isPresent()) {
+            if (entityDTO.getId() != null) {
+                ScheduleJob scheduleJob = scheduleJobRepository.findById(entityDTO.getId()).orElse(null);
+                ScheduleJobType jobType = scheduleJobTypeRepository.findByNameIgnoreCase(entityDTO.getScheduleJobTypeName());
+                scheduleJob.setScheduleJobType(jobType);
+                scheduleJob.setName(entityDTO.getName());
+                scheduleJob.setCronExpression(entityDTO.getCronExpression());
+                return new ScheduleJobDTO(scheduleJobRepository.save(scheduleJob));
+            } else {
+                ScheduleJob scheduleJob = new ScheduleJob(entityDTO);
+                scheduleJob.setScheduleJobType(scheduleJobTypeRepository.findByNameIgnoreCase(entityDTO.getScheduleJobTypeName()));
+                return new ScheduleJobDTO(scheduleJobRepository.save(scheduleJob));
+            }
+        }
         else {
-            ScheduleJob scheduleJob = new ScheduleJob(entityDTO);
-            scheduleJob.setScheduleJobType(scheduleJobTypeRepository.findByNameIgnoreCase(entityDTO.getScheduleJobTypeName()));
-            return new ScheduleJobDTO(scheduleJobRepository.save(scheduleJob));
+            Notification.show("Данная задача уже внесена в базу");
+            return null;
         }
     }
 
     @Override
     public void deleteDTO(ScheduleJobDTO entityDTO) {
+        Optional<ScheduleJob> scheduleJobDB = scheduleJobRepository.findById(entityDTO.getId());
+        if(!scheduleJobDB.isPresent()) {
+            throw new EntityNotFoundException();
+        } else {
+            scheduleJobRepository.delete(scheduleJobDB.get());
+        }
 
     }
 }
