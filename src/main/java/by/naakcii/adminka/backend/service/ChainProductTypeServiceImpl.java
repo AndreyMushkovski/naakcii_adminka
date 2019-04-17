@@ -60,12 +60,9 @@ public class ChainProductTypeServiceImpl implements CrudService<ChainProductType
         Optional<ChainProductType> chainProductType = chainProductTypeRepository
                 .findByNameIgnoreCaseAndSynonymIgnoreCase(entityDTO.getName(), entityDTO.getSynonym());
         ChainProductType chainProductTypeDB = chainProductTypeRepository.findByNameIgnoreCase(entityDTO.getName());
-        if(entityDTO.getId()==null) {
-            if (chainProductType.isPresent() || chainProductTypeDB!=null) {
-                Notification.show("Данная акция уже внесена в базу");
-                return null;
-            }
-            return new ChainProductTypeDTO(chainProductTypeRepository.save(new ChainProductType(entityDTO)));
+        if (chainProductType.isPresent() || chainProductTypeDB!=null) {
+            Notification.show("Данная акция уже внесена в базу");
+            return null;
         } else {
             return new ChainProductTypeDTO(chainProductTypeRepository.save(new ChainProductType(entityDTO)));
         }

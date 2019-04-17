@@ -112,8 +112,8 @@ public class SubcategoryServiceImpl implements SubcategoryService, CrudService<S
     public SubcategoryDTO saveDTO(SubcategoryDTO entityDTO) {
         Subcategory subcategory = new Subcategory(entityDTO);
         subcategory.setCategory(categoryRepository.findByNameIgnoreCase(entityDTO.getCategoryName()).orElse(null));
-        Optional<Subcategory> subcategoryDB = subcategoryRepository.findByNameAndCategoryName(subcategory.getName(), entityDTO.getCategoryName());
-        if (subcategoryDB.isPresent() && entityDTO.getId()==null) {
+        Optional<Subcategory> subcategoryDB = subcategoryRepository.findByNameIgnoreCaseAndCategoryNameIgnoreCase(subcategory.getName(), entityDTO.getCategoryName());
+        if (subcategoryDB.isPresent()) {
             Notification.show("Данная подкатегория уже внесена в базу");
             return null;
         } else {

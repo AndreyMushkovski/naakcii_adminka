@@ -88,13 +88,13 @@ public class CategoryServiceImpl implements CategoryService, CrudService<Categor
     @Override
     public CategoryDTO saveDTO(CategoryDTO entityDTO) {
         Optional<Category> category = categoryRepository.findByNameIgnoreCase(entityDTO.getName());
-        if (category.isPresent() && entityDTO.getId() == null) {
+        if (!category.isPresent()) {
+            return new CategoryDTO(categoryRepository.save(new Category(entityDTO)));
+        } else {
             Notification.show("Данная категория уже внесена в базу");
             return null;
-        } else {
-            return new CategoryDTO(categoryRepository.save(new Category(entityDTO)));
         }
-    }
+   }
 
     @Override
     @Transactional

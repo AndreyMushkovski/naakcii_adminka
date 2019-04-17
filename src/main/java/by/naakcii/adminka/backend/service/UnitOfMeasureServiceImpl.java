@@ -67,12 +67,9 @@ public class UnitOfMeasureServiceImpl implements UnitOfMeasureService, CrudServi
 
     @Override
     public UnitOfMeasureDTO saveDTO(UnitOfMeasureDTO entityDTO) {
-        if (entityDTO.getId() == null) {
-            if (unitOfMeasureRepository.findByNameIgnoreCase(entityDTO.getName()) != null) {
-                Notification.show("Данная единица измерения уже внесена в базу");
-                return null;
-            }
-            return new UnitOfMeasureDTO(unitOfMeasureRepository.save(new UnitOfMeasure(entityDTO)));
+        if (unitOfMeasureRepository.findByNameIgnoreCase(entityDTO.getName()) != null) {
+            Notification.show("Данная единица измерения уже внесена в базу");
+            return null;
         } else {
             return new UnitOfMeasureDTO(unitOfMeasureRepository.save(new UnitOfMeasure(entityDTO)));
         }
