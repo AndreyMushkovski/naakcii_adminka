@@ -6,6 +6,8 @@ import by.naakcii.adminka.ui.utils.AppConsts;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.router.*;
+import com.vaadin.flow.server.InitialPageSettings;
+import com.vaadin.flow.server.PageConfigurator;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.material.Material;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ import java.util.List;
 @Theme(Material.class)
 @PageTitle(AppConsts.TITLE_MAIN)
 @Viewport(AppConsts.VIEWPORT)
-public class MainView extends VerticalLayout implements RouterLayout, HasUrlParameter<String> {
+public class MainView extends VerticalLayout implements RouterLayout, HasUrlParameter<String>, PageConfigurator {
 
     private final AppNavigation appNavigation;
 
@@ -58,5 +60,10 @@ public class MainView extends VerticalLayout implements RouterLayout, HasUrlPara
         if (!parameter.equals(adminkaPath)) {
             throw new IllegalArgumentException();
         }
+    }
+
+    @Override
+    public void configurePage(InitialPageSettings settings) {
+        settings.addFavIcon("icon", "frontend/icons/favicon.ico", "256x256");
     }
 }

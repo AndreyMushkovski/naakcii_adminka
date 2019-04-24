@@ -9,6 +9,7 @@ import by.naakcii.adminka.ui.views.CrudForm;
 import by.naakcii.adminka.ui.views.CrudView;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
@@ -18,7 +19,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-@HtmlImport("styles/styles.html")
+//@JavaScript("styles/script.js")
+//@HtmlImport("styles/styles.html")
 @Route(value = AppConsts.PAGE_MAIN + "/" + AppConsts.PAGE_PRODUCT, layout = MainView.class)
 @PageTitle(AppConsts.TITLE_PRODUCT)
 public class ProductView extends CrudView<ProductDTO> {

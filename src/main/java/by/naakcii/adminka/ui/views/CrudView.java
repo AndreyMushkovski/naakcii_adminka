@@ -104,8 +104,8 @@ public abstract class CrudView<E extends AbstractDTOEntity> extends VerticalLayo
     private void cancel() {
         getGrid().asSingleSelect().clear();
         getDialog().close();
+        updateList(null);
         getGrid().getDataProvider().refreshAll();
-
     }
 
     private void delete() {
